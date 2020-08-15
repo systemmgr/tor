@@ -1,0 +1,18 @@
+# tor hidden site
+
+[Unit]
+Description=Tor Hidden Site
+After=network.target tor.service
+
+[Service]
+Type=simple
+User=tor
+WorkingDirectory=/usr/local/share/tor/public
+ExecStart=/bin/sh -c "/usr/local/etc/tor/site/start.sh"
+ExecStop=/bin/kill -2 $MAINPID
+Restart=always
+#StartLimitBurst=10
+#StartLimitInterval=60s
+
+[Install]
+WantedBy=multi-user.target
