@@ -1,4 +1,5 @@
 {
   "port": 8082,
-  "server": { "baseDir": "./public" }
+  "server": { "baseDir": "./public" },
+  "open": false
 }
