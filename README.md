@@ -1,4 +1,4 @@
-## NAME  
+## tor  
   
 Tor is an open source implementation of 2nd generation onion routing that provides free access to an anonymous proxy network  
   
