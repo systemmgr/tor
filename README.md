@@ -9,11 +9,11 @@ pacman: ```pacman -S tor```
   
 Automatic install/update:
 ```
-sudo bash -c "$(curl -LSs https://github.com/casjay-dotfiles/tor/raw/master/install.sh)"
+sudo bash -c "$(curl -LSs https://github.com/systemmgr/tor/raw/master/install.sh)"
 ```
 Manual install:
 ```
-sudo git clone https://github.com/casjay-dotfiles/tor "/usr/local/etc/tor"
+sudo git clone https://github.com/systemmgr/tor "/usr/local/etc/tor"
 sudo ln -sf /usr/local/etc/tor/site/tor-site.service /etc/systemd/system/tor-site.service
 sudo ln -sf /usr/local/etc/tor/{torrc,torsocks.conf} /etc/tor/
 sudo systemctl daemon-reload
