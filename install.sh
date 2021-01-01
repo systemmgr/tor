@@ -101,7 +101,7 @@ failexitcode
 # run post install scripts
 
 run_postinst() {
-  systemmgr_run_post
+  systemmgr_run_postinst
   devnull systemctl stop tor tor-site.service
   mkdir -p /usr/local/share/tor/public
   cp_rf "$APPDIR/torrc" /etc/tor/torrc
