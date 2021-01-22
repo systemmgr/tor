@@ -46,9 +46,10 @@ scripts_check
 # Defaults
 APPNAME="${APPNAME:-tor}"
 APPDIR="/usr/local/etc/$APPNAME"
+INSTDIR="${INSTDIR}"
 REPO="${SYSTEMMGRREPO:-https://github.com/systemmgr}/${APPNAME}"
 REPORAW="${REPORAW:-$REPO/raw}"
-APPVERSION="$(curl -LSs $REPORAW/master/version.txt)"
+APPVERSION="$(__appversion $REPORAW/master/version.txt)"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -61,6 +62,13 @@ systemmgr_install
 # Script options IE: --help
 
 show_optvars "$@"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Requires root - no point in continuing
+
+sudoreq # sudo required
+#sudorun  # sudo optional
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -82,15 +90,15 @@ ensure_perms
 
 # Main progam
 
-if [ -d "$APPDIR/.git" ]; then
+if [ -d "$INSTDIR/.git" ]; then
   execute \
-  "git_update $APPDIR" \
-  "Updating $APPNAME configurations"
+    "git_update $INSTDIR" \
+    "Updating $APPNAME configurations"
 else
   execute \
-  "backupapp && \
-        git_clone -q $REPO/$APPNAME $APPDIR" \
-  "Installing $APPNAME configurations"
+    "backupapp && \
+        git_clone -q $REPO/$APPNAME $INSTDIR" \
+    "Installing $APPNAME configurations"
 fi
 
 # exit on fail
@@ -104,10 +112,10 @@ run_postinst() {
   systemmgr_run_postinst
   devnull systemctl stop tor tor-site.service
   mkdir -p /usr/local/share/tor/public
-  cp_rf "$APPDIR/torrc" /etc/tor/torrc
-  cp_rf "$APPDIR/torsocks.conf" /etc/tor/torsocks
-  cp_rf "$APPDIR/site/public/." /usr/local/share/tor/public/
-  ln_sf "$APPDIR/site/tor-site.service" /etc/systemd/system/tor-site.service
+  cp_rf "$INSTDIR/site/public/." /usr/local/share/tor/public/
+  cp_rf "$INSTDIR/site/tor-site.service" /etc/systemd/system/tor-site.service
+  cp_rf "$APPDIR" /etc/tor/torrc
+  cp_rf "$APPDIR" /etc/tor/torsocks
   devnull chmod go-rwx /var/lib/tor/hidden_service
   devnull chown -Rf "$(getuser tor)":"$(getuser tor)" /usr/local/share/tor
   devnull chown -Rf "$(getuser tor)":"$(getuser tor)" /etc/tor
@@ -115,12 +123,12 @@ run_postinst() {
   devnull systemctl enable --now tor tor-site.service
   devnull chmod go-rwx /var/lib/tor/hidden_service
   devnull systemctl restart tor tor-site.service && sleep 30
-  replace "/usr/local/share/tor/public" MYHOSTNAME "$(hostname)"
+  replace "/usr/local/share/tor/public" "MYHOSTNAME" "$(hostname -s)"
 }
 
 execute \
-"run_postinst" \
-"Running post install scripts"
+  "run_postinst" \
+  "Running post install scripts"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
