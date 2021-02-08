@@ -49,7 +49,7 @@ APPDIR="/usr/local/etc/$APPNAME"
 INSTDIR="${INSTDIR}"
 REPO="${SYSTEMMGRREPO:-https://github.com/systemmgr}/${APPNAME}"
 REPORAW="${REPORAW:-$REPO/raw}"
-APPVERSION="$(__appversion $REPORAW/master/version.txt)"
+APPVERSION="$(__appversion "$REPORAW/master/version.txt")"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -90,14 +90,17 @@ ensure_perms
 
 # Main progam
 
+if [ -d "$APPDIR" ]; then
+  execute "backupapp $APPDIR $APPNAME" "Backing up $APPDIR"
+fi
+
 if [ -d "$INSTDIR/.git" ]; then
   execute \
     "git_update $INSTDIR" \
     "Updating $APPNAME configurations"
 else
   execute \
-    "backupapp && \
-        git_clone -q $REPO/$APPNAME $INSTDIR" \
+    "git_clone $REPO/$APPNAME $INSTDIR" \
     "Installing $APPNAME configurations"
 fi
 
