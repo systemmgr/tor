@@ -72,7 +72,7 @@ sudoreq # sudo required
 #sudorun # sudo optional
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Do not update - add --force to overwrite
-#installer_noupdate "$@"
+installer_noupdate "$@"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # initialize the installer
 systemmgr_run_init
