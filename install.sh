@@ -133,8 +133,8 @@ fi
 # run post install scripts
 run_postinst() {
   systemmgr_run_post
-  mkdir -p /usr/local/share/tor/public
-  cp_rf "$INSTDIR/site/public/." /usr/local/share/tor/public/
+  mkdir -p "/usr/local/share/tor/public"
+  cp_rf "$INSTDIR/site/public/." "/usr/local/share/tor/public/"
   cp_rf "$INSTDIR/site/tor-site.service" /etc/systemd/system/tor-site.service
   cp_rf "$APPDIR" /etc/tor/torrc
   cp_rf "$APPDIR" /etc/tor/torsocks
