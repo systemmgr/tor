@@ -11,12 +11,10 @@ RunAsDaemon 0
 DataDirectory /var/lib/tor
 ControlPort 9051
 #HashedControlPassword 16:kfhkajdsfhkjadhfiuhfhdjcahsf
-
 ############### dnforwarder
 DNSPort 9053
 AutomapHostsOnResolve 1
 AutomapHostsSuffixes .exit,.onion
-
 ############### This section is just for location-hidden services ###
 HiddenServiceDir /var/lib/tor/hidden_service/default
 HiddenServicePort 22 127.0.0.2:22
@@ -48,4 +46,3 @@ HiddenServicePort 80 127.0.0.2:8082
 #ExitPolicy reject *:* # no exits allowed
 #BridgeRelay 1
 #PublishServerDescriptor 0
-
