@@ -6,7 +6,7 @@ After=network.target tor.service
 
 [Service]
 Type=simple
-User=tor
+User=root
 WorkingDirectory=/usr/local/share/tor/public
 ExecStart=/bin/bash -c "/usr/local/share/tor/start.sh"
 ExecStop=/bin/kill -2 $MAINPID
