@@ -21,7 +21,7 @@ HiddenServicePort 80 127.0.0.2:8082
 ##### Server 
 ControlPort localhost:9051
 SOCKSPort localhost:9050
-#HTTPTunnelPort 0.0.0.0:9080
+HTTPTunnelPort localhost:9080
 
 ##### dns forwarder
 #DNSPort localhost:9053
