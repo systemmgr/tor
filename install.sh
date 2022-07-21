@@ -134,17 +134,22 @@ fi
 run_postinst() {
   systemmgr_run_post
   mkdir -p "/usr/local/share/tor"
+  mkdir -p "/var/lib/tor/hidden_service/default"
   cp_rf "$APPDIR/." "/etc/tor/"
   cp_rf "$INSTDIR/site/." "/usr/local/share/tor/"
   cp_rf "$INSTDIR/site/tor-site.service" /etc/systemd/system/tor-site.service
   replace "/usr/local/share/tor/public" "MYHOSTNAME" "$(hostname -s)"
   devnull chown -Rf "$(getuser tor)":"$(getuser tor)" /usr/local/share/tor
   devnull chown -Rf "$(getuser tor)":"$(getuser tor)" /etc/tor
+  devnull chown -Rf "$(getuser tor)":"$(getuser tor)" /run/tor
   devnull chmod go-rwx /var/lib/tor/hidden_service
   devnull systemctl daemon-reload
+  system_service_enable tor
+  system_service_restart tor
   system_service_stop tor tor-site.service
   system_service_enable tor tor-site.service
-  system_service_restart tor tor-site.service && sleep 30
+  system_service_restart tor tor-site.service 
+  sleep 10
 }
 #
 execute "run_postinst" "Running post install scripts"
