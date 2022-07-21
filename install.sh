@@ -142,6 +142,8 @@ run_postinst() {
   devnull chown -Rf "$(getuser tor)":"$(getuser tor)" /usr/local/share/tor
   devnull chown -Rf "$(getuser tor)":"$(getuser tor)" /etc/tor
   devnull chown -Rf "$(getuser tor)":"$(getuser tor)" /run/tor
+  devnull chown -Rf "$(getuser tor)":"$(getuser tor)" /var/lib/tor
+  devnull chmod -Rf 600 /var/lib/tor/hidden_service
   devnull chmod go-rwx /var/lib/tor/hidden_service
   devnull systemctl daemon-reload
   system_service_enable tor
