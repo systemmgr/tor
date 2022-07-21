@@ -40,7 +40,7 @@ else
 fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Call the main function
-system_installdirs
+systemmgr_install
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Make sure the scripts repo is installed
 scripts_check
@@ -132,6 +132,7 @@ fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # run post install scripts
 run_postinst() {
+  set -x
   systemmgr_run_post
   mkdir -p "/run/tor" 
   mkdir -p "/var/run/tor"
@@ -142,14 +143,13 @@ run_postinst() {
   cp_rf "$INSTDIR/site/." "/usr/local/share/tor/"
   cp_rf "$INSTDIR/site/tor-site.service" /etc/systemd/system/tor-site.service
   replace "/usr/local/share/tor/public" "MYHOSTNAME" "$(hostname -s)"
-  chown -Rf "$(getuser tor)":"$(getuser tor)" /etc/tor
-  chown -Rf "$(getuser tor)":"$(getuser tor)" /run/tor
-  chown -Rf "$(getuser tor)":"$(getuser tor)" /var/lib/tor
-  chown -Rf "$(getuser tor)":"$(getuser tor)" /usr/local/share/tor
-  chown -Rf "$(getuser tor)":"$(getuser tor)" /var/lib/tor/hidden_service
-  chmod -Rf 600 /run/tor
-  chmod -Rf 600 /var/lib/tor/hidden_service /run/tor 
-  chmod go-rwx /var/lib/tor/hidden_service
+  chown -Rf "$(getuser tor)":"$(getuser tor)" "/etc/tor"
+  chown -Rf "$(getuser tor)":"$(getuser tor)" "/run/tor"
+  chown -Rf "$(getuser tor)":"$(getuser tor)" "/var/lib/tor"
+  chown -Rf "$(getuser tor)":"$(getuser tor)" "/usr/local/share/tor"
+  chmod -Rf 600 "/run/tor"
+  chmod -Rf 700 "/var/lib/tor/hidden_service"
+  chmod go-rwx "/var/lib/tor/hidden_service/default"
   systemctl daemon-reload
   system_service_enable tor
   system_service_restart tor
