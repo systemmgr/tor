@@ -153,11 +153,11 @@ run_postinst() {
   chown -Rf "$(getuser tor)":"$(getuser tor)" "/var/lib/tor"
   chown -Rf "$(getuser tor)":"$(getuser tor)" "/usr/local/share/tor"
   systemctl daemon-reload
-  system_service_enable tor
-  system_service_restart tor
-  system_service_stop tor tor-site.service
-  system_service_enable tor tor-site.service
-  system_service_restart tor tor-site.service 
+  systemctl enable tor
+  systemctl restart tor
+  systemctl stop tor tor-site.service
+  systemctl enable --now tor tor-site.service
+  systemctl restart tor tor-site.service 
   sleep 10
 }
 #
