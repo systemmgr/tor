@@ -136,20 +136,22 @@ run_postinst() {
   systemmgr_run_post
   mkdir -p "/run/tor" 
   mkdir -p "/var/run/tor"
+  mkdir -p "/var/log/tor"
   mkdir -p "/var/lib/tor"
   mkdir -p "/usr/local/share/tor" 
   mkdir -p "/var/lib/tor/hidden_service/default"
   cp_rf "$APPDIR/." "/etc/tor/"
   cp_rf "$INSTDIR/site/." "/usr/local/share/tor/"
-  cp_rf "$INSTDIR/site/tor-site.service" /etc/systemd/system/tor-site.service
+  cp_rf "$INSTDIR/site/tor-site.service" "/etc/systemd/system/tor-site.service"
   replace "/usr/local/share/tor/public" "MYHOSTNAME" "$(hostname -s)"
-  chown -Rf "$(getuser tor)":"$(getuser tor)" "/etc/tor"
-  chown -Rf "$(getuser tor)":"$(getuser tor)" "/run/tor"
-  chown -Rf "$(getuser tor)":"$(getuser tor)" "/var/lib/tor"
-  chown -Rf "$(getuser tor)":"$(getuser tor)" "/usr/local/share/tor"
   chmod -Rf 600 "/run/tor"
   chmod -Rf 700 "/var/lib/tor/hidden_service"
   chmod go-rwx "/var/lib/tor/hidden_service/default"
+  chown -Rf "$(getuser tor)":"$(getuser tor)" "/etc/tor"
+  chown -Rf "$(getuser tor)":"$(getuser tor)" "/run/tor"
+  chown -Rf "$(getuser tor)":"$(getuser tor)" "/var/log/tor"
+  chown -Rf "$(getuser tor)":"$(getuser tor)" "/var/lib/tor"
+  chown -Rf "$(getuser tor)":"$(getuser tor)" "/usr/local/share/tor"
   systemctl daemon-reload
   system_service_enable tor
   system_service_restart tor
