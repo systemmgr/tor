@@ -1,3 +1,14 @@
+## 🗃️ Changelog: 2023-08-10 at 20:31:44 🗃️  
+
+🗃️ Updated domain names 🗃️  
+  
+  
+install.sh  
+
+
+### 🗃️ End of changes for 202210160052-git 🗃️  
+
+----  
 #### Changelog: 2022-10-16 at 00:52:59  
 
 install.sh : 🗃️ Committing everything that changed 🗃️ 🚀  
